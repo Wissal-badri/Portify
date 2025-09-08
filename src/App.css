@@ -1130,7 +1130,8 @@ section {
   }
   
   .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    line-height: 1.2;
   }
   
   .hero-subtitle {
@@ -1263,7 +1264,8 @@ section {
   }
   
   .hero-content h1 {
-    font-size: 2rem;
+    font-size: 1.7rem;
+    line-height: 1.25;
   }
   
   .hero-subtitle {
@@ -1400,7 +1402,8 @@ section {
 
 @media (max-width: 360px) {
   .hero-content h1 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    line-height: 1.25;
   }
   
   .hero-subtitle {

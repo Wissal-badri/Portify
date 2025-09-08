@@ -90,7 +90,7 @@ const App: React.FC = () => {
         "A chatbot created with React and Springboot. It integrates with Gemini API to provide intelligent responses to frequently asked questions (FAQ).",
       technologies: ["React", "Springboot", "Gemini API"],
       image: "./assets/gear9.png",
-      live: "https://www.gear9.ma/",
+      github: "https://github.com/Wissal-badri/Gearbot",
       featured: false,
     },
     {

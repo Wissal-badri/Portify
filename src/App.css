@@ -382,6 +382,7 @@ img {
 /* Section Styles */
 section {
   padding: 100px 0;
+  scroll-margin-top: 90px; 
 }
 
 .section-header {
@@ -1127,6 +1128,11 @@ section {
     grid-template-columns: 1fr;
     text-align: center;
     gap: 30px;
+  }
+  
+  
+  .hero {
+    padding-top: 120px;
   }
   
   .hero-content h1 {

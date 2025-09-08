@@ -56,6 +56,7 @@ const App: React.FC = () => {
     { name: "CSS", level: 90, category: "frontend" },
     { name: "JavaScript", level: 80, category: "frontend" },
     { name: "React", level: 90, category: "frontend" },
+    { name: "Angular", level: 85, category: "frontend" },
     { name: "TypeScript", level: 70, category: "frontend" },
 
     // C Languages

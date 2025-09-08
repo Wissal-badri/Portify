@@ -647,33 +647,46 @@ const App: React.FC = () => {
             <p>Technologies I work with</p>
           </motion.div>
 
-          <div className="skills-grid">
-            {skills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                className="skill-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="skill-icon">
-                  {skill.category === "frontend" && <Palette size={24} />}
-                  {skill.category === "backend" && <Code size={24} />}
-                  {skill.category === "database" && <Smartphone size={24} />}
-                  {skill.category === "tools" && <Github size={24} />}
-                </div>
-                <h3>{skill.name}</h3>
-                <div className="skill-bar">
-                  <div
-                    className="skill-progress"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
-                <span className="skill-level">{skill.level}%</span>
-              </motion.div>
-            ))}
+          {/* Three category boxes: Frontend, Backend (incl. DB), Other Tools */}
+          <div className="skills-categories">
+            {[
+              { key: "frontend", title: "Frontend", icon: <Palette size={20} /> },
+              { key: "backend", title: "Backend", icon: <Code size={20} /> },
+              { key: "tools", title: "Other Tools", icon: <Github size={20} /> },
+            ].map((category, catIndex) => {
+              const items = skills.filter((s) =>
+                category.key === "backend" ? s.category === "backend" || s.category === "database" : s.category === (category.key as Skill["category"]) 
+              );
+              return (
+                <motion.div
+                  key={category.key}
+                  className="skill-category-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: catIndex * 0.15 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="skill-category-header">
+                    <div className="skill-category-icon">{category.icon}</div>
+                    <h3>{category.title}</h3>
+                  </div>
+                  <div className="skill-list">
+                    {items.map((skill) => (
+                      <div key={skill.name} className="skill-item-row">
+                        <span className="skill-item-name">{skill.name}</span>
+                        <span className="skill-item-level">{skill.level}%</span>
+                        <div className="skill-item-meter">
+                          <div
+                            className="skill-item-progress"
+                            style={{ width: `${skill.level}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

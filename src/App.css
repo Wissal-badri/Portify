@@ -535,8 +535,86 @@ section {
 /* Skills Section */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
+}
+
+/* Skills Categories (Frontend / Backend / Other Tools) */
+.skills-categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.skill-category-card {
+  background: #132f4c;
+  padding: 22px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.skill-category-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.skill-category-header h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.skill-category-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skill-item-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 12px;
+  align-items: center;
+}
+
+.skill-item-name {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.skill-item-meter {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 6px;
+  background: #374151;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.skill-item-progress {
+  height: 100%;
+  background: linear-gradient(45deg, #00ffff, #0080ff);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.skill-item-level {
+  color: #94a3b8;
+  font-size: 0.9rem;
 }
 
 .skill-card {
@@ -1006,6 +1084,10 @@ section {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .skills-categories {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
   .hero-container {
     gap: 40px;
   }
@@ -1018,8 +1100,9 @@ section {
     gap: 60px;
   }
   
+  /* Keep 5 columns on medium screens as requested */
   .skills-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
   }
   
   .projects-grid {
@@ -1126,8 +1209,13 @@ section {
   }
   
   .skills-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+  }
+
+  .skills-categories {
+    grid-template-columns: 1fr;
+    gap: 18px;
   }
   
   .skill-card {
@@ -1252,8 +1340,13 @@ section {
   }
   
   .skills-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
+  }
+
+  .skills-categories {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .skill-card {
@@ -1346,6 +1439,6 @@ section {
   }
 
   .skills-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 }

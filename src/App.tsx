@@ -86,12 +86,12 @@ const App: React.FC = () => {
     },
     {
       id: 2,
-      title: "GEAR-BOT",
+      title: "Product Management System",
       description:
-        "A chatbot created with React and Springboot. It integrates with Gemini API to provide intelligent responses to frequently asked questions (FAQ).",
-      technologies: ["React", "Springboot", "Gemini API"],
-      image: "./assets/gear9.png",
-      github: "https://github.com/Wissal-badri/Gearbot",
+        "A full-stack web application for managing products, built with React and Node.js/Express with a MySQL backend.",
+      technologies: ["React", "Node.js", "Express", "MySQL"],
+      image: "./assets/productmanagement.png",
+      github: "https://github.com/Wissal-badri/Product_management",
       featured: false,
     },
     {

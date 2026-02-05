@@ -1,0 +1,111 @@
+.target-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    /* Suppression du transition: all qui causait le lag */
+    will-change: transform;
+}
+
+/* SVG container pour les arcs */
+.cursor-outer {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    animation: spin var(--spin-duration, 1.5s) linear infinite;
+    transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        height 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        opacity 0.3s ease;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.cursor-outer path {
+    transition: stroke-width 0.3s ease, stroke 0.3s ease;
+}
+
+/* Point central */
+.cursor-inner {
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.7),
+        0 0 6px rgba(255, 255, 255, 0.9);
+    transition: width 0.2s ease, height 0.2s ease;
+    z-index: 2;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* État hover - Agrandissement fluide sans affecter le mouvement */
+.target-cursor.hovering .cursor-outer {
+    width: 70px;
+    height: 70px;
+    opacity: 1;
+    animation: spinFast calc(var(--spin-duration, 1.5s) / 2) linear infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+}
+
+.target-cursor.hovering .cursor-outer path {
+    stroke-width: 2.5;
+    stroke: rgba(255, 255, 255, 1);
+}
+
+.target-cursor.hovering .cursor-inner {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.9),
+        0 0 10px rgba(255, 255, 255, 1);
+    animation: none;
+}
+
+/* Animations */
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes spinFast {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.95;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
+    }
+}
+
+/* Masquer sur mobile */
+@media (max-width: 768px) {
+    .target-cursor {
+        display: none !important;
+    }
+}

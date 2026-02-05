@@ -14,8 +14,11 @@ import {
   Code,
   Palette,
   Smartphone,
+  Zap,
 } from "lucide-react";
 import "./App.css";
+import Iridescence from "./Iridescence";
+import TargetCursor from "./TargetCursor";
 
 interface Project {
   id: number;
@@ -41,7 +44,6 @@ const App: React.FC = () => {
     "idle" | "success" | "error"
   >("idle");
   const formRef = useRef<HTMLFormElement>(null);
-  const [codeLanguage, setCodeLanguage] = useState<'en' | 'fr'>('en');
 
   const skills: Skill[] = [
     // Backend
@@ -126,7 +128,7 @@ const App: React.FC = () => {
       description:
         "A comprehensive Java application for managing student records and academic data. Features include grade management, attendance tracking, and secure data storage with MySQL database. Built with Java Swing for the user interface.",
       technologies: ["Java", "MySQL"],
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
       github: "https://github.com/Wissal-badri/Student-management",
     },
   ];
@@ -225,17 +227,18 @@ const App: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animation de changement de langue pour le code preview
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCodeLanguage((prev) => (prev === 'en' ? 'fr' : 'en'));
-    }, 4000); // Change toutes les 4 secondes
 
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="App">
+      {/* Custom Target Cursor */}
+      <TargetCursor
+        spinDuration={1.5}
+        hideDefaultCursor
+        parallaxOn
+        hoverDuration={0.3}
+      />
+
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
@@ -244,9 +247,15 @@ const App: React.FC = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
+            whileHover={{ scale: 1.05 }}
           >
-            <Code className="logo-icon" />
-            <span>Portfolio</span>
+            <div className="logo-wrapper">
+              <Zap className="logo-icon" />
+              <div className="logo-text">
+                <span className="logo-monogram">BW</span>
+                <span className="logo-full-name">BADRI Wissal</span>
+              </div>
+            </div>
           </motion.div>
 
           <div className="nav-menu">
@@ -296,6 +305,13 @@ const App: React.FC = () => {
 
       {/* Hero Section */}
       <section id="home" className="hero">
+        {/* Iridescence Background Effect */}
+        <Iridescence
+          color={[0, 1, 1]}
+          speed={0.5}
+          amplitude={0.15}
+          mouseReact={true}
+        />
         <div className="hero-container">
           <motion.div
             className="hero-content"
@@ -526,48 +542,27 @@ const App: React.FC = () => {
                 </motion.div>
               </div>
               <div className="code-preview">
-                <motion.div
-                  className="language-badge"
-                  key={`badge-${codeLanguage}`}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {codeLanguage === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'}
-                </motion.div>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={codeLanguage}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <div className="code-line">
-                      <span className="code-keyword">const</span> developer = {"{"}
-                    </div>
-                    <div className="code-line">
-                      <span className="code-property">{codeLanguage === 'en' ? 'name' : 'nom'}:</span>{" "}
-                      <span className="code-string">'BADRI Wissal'</span>,
-                    </div>
-                    <div className="code-line">
-                      <span className="code-property">{codeLanguage === 'en' ? 'role' : 'rôle'}:</span>{" "}
-                      <span className="code-string">
-                        {codeLanguage === 'en' ? "'Software Engineer Student'" : "'Étudiante Ingénieure Logiciel'"}
-                      </span>
-                      ,
-                    </div>
 
-                    <div className="code-line">
-                      <span className="code-property">passion:</span>{" "}
-                      <span className="code-string">
-                        {codeLanguage === 'en' ? "'Creating innovative solutions'" : "'Créer des solutions innovantes'"}
-                      </span>
-                    </div>
-                    <div className="code-line">{"}"};
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+
+                <div className="code-line">
+                  <span className="code-keyword">const</span> developer = {"{"}
+                </div>
+                <div className="code-line">
+                  <span className="code-property">name:</span>{" "}
+                  <span className="code-string">'BADRI Wissal'</span>,
+                </div>
+                <div className="code-line">
+                  <span className="code-property">role:</span>{" "}
+                  <span className="code-string">'Software Engineer Student'</span>,
+                </div>
+
+                <div className="code-line">
+                  <span className="code-property">passion:</span>{" "}
+                  <span className="code-string">'Creating innovative solutions'</span>
+                </div>
+                <div className="code-line">{"}"};
+                </div>
+
               </div>
             </div>
           </motion.div>
@@ -897,37 +892,21 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* FooterSection */}
       <footer className="footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-logo">
-              <Code className="logo-icon" />
-              <span>Wisso's Portfolio</span>
-            </div>
-            <p>&copy; 2025 BADRI Wissal. All rights reserved.</p>
-            <div className="footer-social">
-              <a
-                href="https://github.com/Wissal-badri"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-link"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/wissal-badri-77099a335/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-link"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a href="mailto:wissalbadri91@gmail.com" className="social-link">
-                <Mail size={20} />
-              </a>
-            </div>
-          </div>
+        <div className="footer-text">
+          &copy; {new Date().getFullYear()} <span className="highlight">BADRI Wissal</span> • Built with Passion
+        </div>
+        <div className="footer-socials">
+          <a href="https://github.com/Wissal-badri" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+            <Github size={20} />
+          </a>
+          <a href="https://www.linkedin.com/in/wissal-badri-77099a335/" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+            <Linkedin size={20} />
+          </a>
+          <a href="mailto:wissalbadri91@gmail.com" className="footer-social-link">
+            <Mail size={20} />
+          </a>
         </div>
       </footer>
 

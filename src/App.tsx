@@ -23,9 +23,8 @@ interface Project {
   description: string;
   technologies: string[];
   image: string;
-  github?: string; // Optional GitHub link
-  live?: string; // Optional live demo link
-  featured: boolean;
+  github?: string;
+  live?: string;
 }
 
 interface Skill {
@@ -42,6 +41,7 @@ const App: React.FC = () => {
     "idle" | "success" | "error"
   >("idle");
   const formRef = useRef<HTMLFormElement>(null);
+  const [codeLanguage, setCodeLanguage] = useState<'en' | 'fr'>('en');
 
   const skills: Skill[] = [
     // Backend
@@ -58,6 +58,8 @@ const App: React.FC = () => {
     { name: "React", level: 90, category: "frontend" },
     { name: "Angular", level: 85, category: "frontend" },
     { name: "TypeScript", level: 70, category: "frontend" },
+    { name: "Flutter", level: 85, category: "frontend" },
+    { name: "Dart", level: 85, category: "frontend" },
 
     // C Languages
     { name: "C", level: 75, category: "backend" },
@@ -79,30 +81,26 @@ const App: React.FC = () => {
       description:
         "A modern, responsive portfolio website built with React and TypeScript. Features smooth animations, interactive elements, and a professional design that showcases my skills and projects effectively.",
       technologies: ["React", "TypeScript", "CSS3"],
-      image: "./assets/portify.png",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
       github: "https://github.com/Wissal-badri/portfolio",
-      live: "#",
-      featured: false,
     },
     {
       id: 2,
       title: "Product Management System",
       description:
-        "A full-stack web application for managing products, built with React and Node.js/Express with a MySQL backend.",
+        "A full-stack web application for managing products, built with React and Node.js/Express with a MySQL backend. Features complete CRUD operations, inventory tracking, and real-time updates.",
       technologies: ["React", "Node.js", "Express", "MySQL"],
-      image: "./assets/productmanagement.png",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
       github: "https://github.com/Wissal-badri/Product_management",
-      featured: false,
     },
     {
       id: 3,
-      title: "Restaurant Website",
+      title: "Gastronome",
       description:
-        "A beautiful and responsive restaurant website for Foodbasilic. Features an elegant design with menu showcase, contact information, and smooth user experience. Built with modern web technologies for optimal performance.",
-      technologies: ["Html", "Css", "Javascript"],
-      image: "./assets/foodbasilic.png",
-      live: "https://www.foodbasilic.com/",
-      featured: false,
+        "A comprehensive recipe book application featuring cuisines from around the world. Organized by categories (sweet, salty, traditional) for each country, with a powerful search functionality and beautiful recipe photos. Built with modern web technologies for an exceptional culinary experience.",
+      technologies: ["Flutter", "Dart"],
+      image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80",
+      github: "https://github.com/Wissal-badri/Gastronome",
     },
     {
       id: 4,
@@ -110,10 +108,8 @@ const App: React.FC = () => {
       description:
         "A dynamic weather application built with Angular and TypeScript. Provides real-time weather information with a clean, user-friendly interface. Features location-based weather data and responsive design for all devices.",
       technologies: ["Angular", "TypeScript", "CSS3"],
-      image: "./assets/weatherapp.png",
+      image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=800&q=80",
       github: "https://github.com/Wissal-badri/WeatherApp",
-      live: "https://weather-app-omega-seven-77.vercel.app/",
-      featured: false,
     },
     {
       id: 5,
@@ -121,22 +117,51 @@ const App: React.FC = () => {
       description:
         "A clean and minimalist portfolio website built with vanilla HTML, CSS, and JavaScript. Features smooth scrolling, interactive elements, and a professional layout that highlights projects and skills effectively.",
       technologies: ["Html", "Css", "Javascript"],
-      image: "./assets/simpleportfolio.png",
+      image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80",
       github: "https://github.com/Wissal-badri/Simple_portfolio",
-      live: "https://my-portfolio-ten-kappa-13.vercel.app/",
-      featured: false,
     },
     {
       id: 6,
       title: "Student Management System",
       description:
-        "A comprehensive Java application for managing student records and academic data. Features include grade management, and secure data storage with MySQL database. Built with Java Swing for the user interface.",
+        "A comprehensive Java application for managing student records and academic data. Features include grade management, attendance tracking, and secure data storage with MySQL database. Built with Java Swing for the user interface.",
       technologies: ["Java", "MySQL"],
-      image: "./assets/studentmanagement.jpg",
+      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
       github: "https://github.com/Wissal-badri/Student-management",
-      featured: false,
     },
   ];
+
+
+
+  const getSkillIconUrl = (name: string) => {
+    const normalized = name.toLowerCase().replace(/\s+/g, '').replace(/\./g, '');
+    const iconMap: { [key: string]: string } = {
+      java: "java/java-original",
+      j2ee: "java/java-plain",
+      springboot: "spring/spring-original",
+      nodejs: "nodejs/nodejs-original",
+      express: "express/express-original",
+      html: "html5/html5-original",
+      css: "css3/css3-original",
+      javascript: "javascript/javascript-original",
+      react: "react/react-original",
+      angular: "angularjs/angularjs-original",
+      typescript: "typescript/typescript-original",
+      c: "c/c-original",
+      "c++": "cplusplus/cplusplus-original",
+      mysql: "mysql/mysql-original",
+      mongodb: "mongodb/mongodb-original",
+      git: "git/git-original",
+      github: "github/github-original",
+      flutter: "flutter/flutter-original",
+      dart: "dart/dart-original"
+    };
+
+    if (normalized === "c++" || normalized === "cpp") return "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg";
+
+    const path = iconMap[normalized] || "devicon/devicon-original";
+    return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${path}.svg`;
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -154,10 +179,10 @@ const App: React.FC = () => {
     if (formRef.current) {
       emailjs
         .sendForm(
-          "service_uc7y17r", 
-          "template_qqx1dif", 
+          "service_uc7y17r",
+          "template_qqx1dif",
           formRef.current,
-          "ux0hCy9LV_uMR-rhP" 
+          "ux0hCy9LV_uMR-rhP"
         )
         .then((result) => {
           console.log("SUCCESS!", result.text);
@@ -198,6 +223,15 @@ const App: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Animation de changement de langue pour le code preview
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCodeLanguage((prev) => (prev === 'en' ? 'fr' : 'en'));
+    }, 4000); // Change toutes les 4 secondes
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -492,28 +526,48 @@ const App: React.FC = () => {
                 </motion.div>
               </div>
               <div className="code-preview">
-                <div className="code-line">
-                  <span className="code-keyword">const</span> developer = {"{"}
-                </div>
-                <div className="code-line">
-                  <span className="code-property"> name:</span>{" "}
-                  <span className="code-string">'BADRI Wissal'</span>,
-                </div>
-                <div className="code-line">
-                  <span className="code-property"> role:</span>{" "}
-                  <span className="code-string">
-                    'Software Engineer Student'
-                  </span>
-                  ,
-                </div>
+                <motion.div
+                  className="language-badge"
+                  key={`badge-${codeLanguage}`}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {codeLanguage === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'}
+                </motion.div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={codeLanguage}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="code-line">
+                      <span className="code-keyword">const</span> developer = {"{"}
+                    </div>
+                    <div className="code-line">
+                      <span className="code-property">{codeLanguage === 'en' ? 'name' : 'nom'}:</span>{" "}
+                      <span className="code-string">'BADRI Wissal'</span>,
+                    </div>
+                    <div className="code-line">
+                      <span className="code-property">{codeLanguage === 'en' ? 'role' : 'rôle'}:</span>{" "}
+                      <span className="code-string">
+                        {codeLanguage === 'en' ? "'Software Engineer Student'" : "'Étudiante Ingénieure Logiciel'"}
+                      </span>
+                      ,
+                    </div>
 
-                <div className="code-line">
-                  <span className="code-property"> passion:</span>{" "}
-                  <span className="code-string">
-                    'Creating innovative solutions'
-                  </span>
-                </div>
-                <div className="code-line">{"}"};</div>
+                    <div className="code-line">
+                      <span className="code-property">passion:</span>{" "}
+                      <span className="code-string">
+                        {codeLanguage === 'en' ? "'Creating innovative solutions'" : "'Créer des solutions innovantes'"}
+                      </span>
+                    </div>
+                    <div className="code-line">{"}"};
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           </motion.div>
@@ -648,46 +702,25 @@ const App: React.FC = () => {
             <p>Technologies I work with</p>
           </motion.div>
 
-          {/* Three category boxes: Frontend, Backend (incl. DB), Other Tools */}
-          <div className="skills-categories">
-            {[
-              { key: "frontend", title: "Frontend", icon: <Palette size={20} /> },
-              { key: "backend", title: "Backend", icon: <Code size={20} /> },
-              { key: "tools", title: "Other Tools", icon: <Github size={20} /> },
-            ].map((category, catIndex) => {
-              const items = skills.filter((s) =>
-                category.key === "backend" ? s.category === "backend" || s.category === "database" : s.category === (category.key as Skill["category"]) 
-              );
-              return (
-                <motion.div
-                  key={category.key}
-                  className="skill-category-card"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: catIndex * 0.15 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="skill-category-header">
-                    <div className="skill-category-icon">{category.icon}</div>
-                    <h3>{category.title}</h3>
+          <div className="skills-carousel">
+            <div className="skills-track">
+              {/* Duplicate skills list for infinite scroll effect */}
+              {[...skills, ...skills].map((skill, index) => {
+                const isExpress = skill.name === "Express";
+                return (
+                  <div key={`${skill.name}-${index}`} className="skill-tech-card">
+                    <div className="skill-tech-logo-wrapper">
+                      <img
+                        src={getSkillIconUrl(skill.name)}
+                        alt={skill.name}
+                        className={`skill-tech-logo-img ${isExpress ? 'invert-white' : ''}`}
+                      />
+                    </div>
+                    <div className="skill-tech-name">{skill.name}</div>
                   </div>
-                  <div className="skill-list">
-                    {items.map((skill) => (
-                      <div key={skill.name} className="skill-item-row">
-                        <span className="skill-item-name">{skill.name}</span>
-                        <span className="skill-item-level">{skill.level}%</span>
-                        <div className="skill-item-meter">
-                          <div
-                            className="skill-item-progress"
-                            style={{ width: `${skill.level}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -710,20 +743,13 @@ const App: React.FC = () => {
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
-                className={`project-card ${project.featured ? "featured" : ""}`}
+                className="project-card"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
               >
-                {project.featured && (
-                  <div className="featured-badge">
-                    <Star size={16} />
-                    Featured
-                  </div>
-                )}
-
                 <div className="project-image">
                   <img src={project.image} alt={project.title} />
                   <div className="project-overlay">
@@ -736,16 +762,6 @@ const App: React.FC = () => {
                           rel="noopener noreferrer"
                         >
                           <Github size={20} />
-                        </a>
-                      )}
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          className="project-link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <ExternalLink size={20} />
                         </a>
                       )}
                     </div>

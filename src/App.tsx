@@ -414,8 +414,8 @@ const App: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   const link = document.createElement("a");
-                  link.href = "/pdf/CV_Wissal.pdf";
-                  link.download = "CV Wissal.pdf";
+                  link.href = "/pdf/WissalBadriResumee.pdf";
+                  link.download = "WissalBadriResumee.pdf";
                   link.click();
                 }}
               >

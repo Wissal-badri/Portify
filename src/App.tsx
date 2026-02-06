@@ -15,10 +15,24 @@ import {
   Palette,
   Smartphone,
   Zap,
+  CheckCircle,
+  Award,
+  Trophy,
+  MessageSquare,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 import "./App.css";
 import Iridescence from "./Iridescence";
 import TargetCursor from "./TargetCursor";
+import {
+  fetchGitHubRepos,
+  calculateGitHubStats,
+  getFeaturedRepos,
+  mapRepoToProject,
+  GitHubStats as GitHubStatsType
+} from "./services/githubService";
+import GitHubStatsComponent from "./GitHubStats";
 
 interface Project {
   id: number;
@@ -44,6 +58,9 @@ const App: React.FC = () => {
     "idle" | "success" | "error"
   >("idle");
   const formRef = useRef<HTMLFormElement>(null);
+  const [githubStats, setGithubStats] = useState<GitHubStatsType | null>(null);
+  const [isLoadingGitHub, setIsLoadingGitHub] = useState(true);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
 
   const skills: Skill[] = [
     // Backend
@@ -79,24 +96,6 @@ const App: React.FC = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Portfolio Website",
-      description:
-        "A modern, responsive portfolio website built with React and TypeScript. Features smooth animations, interactive elements, and a professional design that showcases my skills and projects effectively.",
-      technologies: ["React", "TypeScript", "CSS3"],
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-      github: "https://github.com/Wissal-badri/portfolio",
-    },
-    {
-      id: 2,
-      title: "Product Management System",
-      description:
-        "A full-stack web application for managing products, built with React and Node.js/Express with a MySQL backend. Features complete CRUD operations, inventory tracking, and real-time updates.",
-      technologies: ["React", "Node.js", "Express", "MySQL"],
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
-      github: "https://github.com/Wissal-badri/Product_management",
-    },
-    {
-      id: 3,
       title: "Gastronome",
       description:
         "A comprehensive recipe book application featuring cuisines from around the world. Organized by categories (sweet, salty, traditional) for each country, with a powerful search functionality and beautiful recipe photos. Built with modern web technologies for an exceptional culinary experience.",
@@ -105,7 +104,34 @@ const App: React.FC = () => {
       github: "https://github.com/Wissal-badri/Gastronome",
     },
     {
+      id: 2,
+      title: "Royal Note",
+      description:
+        "Royal Notes - The Registry of Thoughts. A luxurious mobile note-taking application designed to treat your thoughts with dignity. Features elegant design, robust MySQL database for permanent storage, and a premium user experience that makes every note feel special.",
+      technologies: ["Flutter", "Dart", "MySQL"],
+      image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=800&q=80",
+      github: "https://github.com/Wissal-badri/Royal-Note",
+    },
+    {
+      id: 3,
+      title: "Portfolio Website",
+      description:
+        "A modern, responsive portfolio website built with React and TypeScript. Features smooth animations, interactive elements, and a professional design that showcases my skills and projects effectively.",
+      technologies: ["React", "TypeScript", "CSS3"],
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+      github: "https://github.com/Wissal-badri/portfolio",
+    },
+    {
       id: 4,
+      title: "Product Management System",
+      description:
+        "A full-stack web application for managing products, built with React and Node.js/Express with a MySQL backend. Features complete CRUD operations, inventory tracking, and real-time updates.",
+      technologies: ["React", "Node.js", "Express", "MySQL"],
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
+      github: "https://github.com/Wissal-badri/Product_management",
+    },
+    {
+      id: 5,
       title: "Weather App",
       description:
         "A dynamic weather application built with Angular and TypeScript. Provides real-time weather information with a clean, user-friendly interface. Features location-based weather data and responsive design for all devices.",
@@ -114,7 +140,7 @@ const App: React.FC = () => {
       github: "https://github.com/Wissal-badri/WeatherApp",
     },
     {
-      id: 5,
+      id: 6,
       title: "Simple Portfolio",
       description:
         "A clean and minimalist portfolio website built with vanilla HTML, CSS, and JavaScript. Features smooth scrolling, interactive elements, and a professional layout that highlights projects and skills effectively.",
@@ -123,7 +149,7 @@ const App: React.FC = () => {
       github: "https://github.com/Wissal-badri/Simple_portfolio",
     },
     {
-      id: 6,
+      id: 7,
       title: "Student Management System",
       description:
         "A comprehensive Java application for managing student records and academic data. Features include grade management, attendance tracking, and secure data storage with MySQL database. Built with Java Swing for the user interface.",
@@ -132,6 +158,8 @@ const App: React.FC = () => {
       github: "https://github.com/Wissal-badri/Student-management",
     },
   ];
+
+
 
 
 
@@ -163,6 +191,22 @@ const App: React.FC = () => {
 
     const path = iconMap[normalized] || "devicon/devicon-original";
     return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${path}.svg`;
+  };
+
+  const getTechIcon = (tech: string) => {
+    const t = tech.toLowerCase();
+    if (t.includes('react')) return <Code size={12} />;
+    if (t.includes('typescript')) return <Code size={12} />;
+    if (t.includes('js') || t.includes('javascript')) return <Code size={12} />;
+    if (t.includes('node') || t.includes('express')) return <Zap size={12} />;
+    if (t.includes('flutter')) return <Smartphone size={12} />;
+    if (t.includes('sql') || t.includes('db') || t.includes('mysql') || t.includes('mongodb')) return <Smartphone size={12} />;
+    if (t.includes('html') || t.includes('css')) return <Palette size={12} />;
+    if (t.includes('java') || t.includes('spring') || t.includes('j2ee')) return <Code size={12} />;
+    if (t.includes('angular')) return <Code size={12} />;
+    if (t.includes('dart')) return <Code size={12} />;
+    if (t.includes('git') || t.includes('github')) return <Github size={12} />;
+    return <Sparkles size={12} />;
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -225,6 +269,42 @@ const App: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Load GitHub data on component mount
+  useEffect(() => {
+    const loadGitHubData = async () => {
+      try {
+        setIsLoadingGitHub(true);
+
+        // Fetch only stats (not repos)
+        const stats = await calculateGitHubStats();
+        console.log('✅ GitHub Stats loaded:', stats);
+        setGithubStats(stats);
+
+
+      } catch (error) {
+        console.error('Error loading GitHub data:', error);
+      } finally {
+        setIsLoadingGitHub(false);
+      }
+    };
+
+    loadGitHubData();
+  }, []);
+
+  // Hide scroll indicator after scrolling
+  useEffect(() => {
+    const handleScrollIndicator = () => {
+      if (window.scrollY > 100) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScrollIndicator);
+    return () => window.removeEventListener("scroll", handleScrollIndicator);
   }, []);
 
 
@@ -330,7 +410,7 @@ const App: React.FC = () => {
             <div className="hero-buttons">
               <motion.button
                 className="btn btn-primary"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(0, 255, 255, 0.4)" }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   const link = document.createElement("a");
@@ -344,11 +424,12 @@ const App: React.FC = () => {
               </motion.button>
               <motion.button
                 className="btn btn-secondary"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection("projects")}
               >
                 View My Work
+                <ArrowRight size={20} className="btn-icon-right" />
               </motion.button>
             </div>
           </motion.div>
@@ -361,185 +442,12 @@ const App: React.FC = () => {
           >
             <div className="hero-visual-container">
               <div className="floating-elements">
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -20, 0],
-                    rotate: [0, 5, -5, 0],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Code size={40} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -30, 0],
-                    rotate: [0, -5, 5, 0],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1,
-                  }}
-                >
-                  <Palette size={35} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -25, 0],
-                    rotate: [0, 10, -10, 0],
-                  }}
-                  transition={{
-                    duration: 7,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 2,
-                  }}
-                >
-                  <Smartphone size={30} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -15, 0],
-                    rotate: [0, -8, 8, 0],
-                  }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.5,
-                  }}
-                >
-                  <Star size={25} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -35, 0],
-                    rotate: [0, 12, -12, 0],
-                  }}
-                  transition={{
-                    duration: 9,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.5,
-                  }}
-                >
-                  <Github size={28} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -18, 0],
-                    rotate: [0, -15, 15, 0],
-                  }}
-                  transition={{
-                    duration: 6.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.8,
-                  }}
-                >
-                  <Linkedin size={32} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -22, 0],
-                    rotate: [0, 8, -8, 0],
-                  }}
-                  transition={{
-                    duration: 7.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 2.5,
-                  }}
-                >
-                  <Mail size={26} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -28, 0],
-                    rotate: [0, -12, 12, 0],
-                  }}
-                  transition={{
-                    duration: 8.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.2,
-                  }}
-                >
-                  <ExternalLink size={24} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -12, 0],
-                    rotate: [0, 6, -6, 0],
-                  }}
-                  transition={{
-                    duration: 5.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.3,
-                  }}
-                >
-                  <Download size={22} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -40, 0],
-                    rotate: [0, -10, 10, 0],
-                  }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.8,
-                  }}
-                >
-                  <Code size={20} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -16, 0],
-                    rotate: [0, 14, -14, 0],
-                  }}
-                  transition={{
-                    duration: 6.8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.7,
-                  }}
-                >
-                  <Palette size={18} />
-                </motion.div>
-                <motion.div
-                  className="floating-icon"
-                  animate={{
-                    y: [0, -32, 0],
-                    rotate: [0, -6, 6, 0],
-                  }}
-                  transition={{
-                    duration: 8.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 2.2,
-                  }}
-                >
-                  <Star size={16} />
-                </motion.div>
+                <div className="floating-particle"></div>
+                <div className="floating-particle"></div>
+                <div className="floating-particle"></div>
+                <div className="floating-particle"></div>
+                <div className="floating-particle"></div>
+                <div className="floating-particle"></div>
               </div>
               <div className="code-preview">
 
@@ -568,15 +476,21 @@ const App: React.FC = () => {
           </motion.div>
         </div>
 
-        <motion.div
-          className="scroll-indicator"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          <ChevronDown size={24} />
-          <span>Scroll to explore</span>
-        </motion.div>
+        {showScrollIndicator && (
+          <motion.div
+            className="scroll-indicator"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ delay: 1, duration: 1, ease: "easeOut" }}
+            onClick={() => scrollToSection("about")}
+          >
+            <div className="mouse-icon">
+              <div className="mouse-wheel"></div>
+            </div>
+            <span className="scroll-text">Scroll to explore</span>
+          </motion.div>
+        )}
       </section>
 
       {/* About Section */}
@@ -616,18 +530,30 @@ const App: React.FC = () => {
               </p>
 
               <div className="about-stats">
-                <div className="stat">
-                  <h4>3+</h4>
+                <motion.div
+                  className="stat"
+                  whileHover={{ y: -5, backgroundColor: "rgba(0, 255, 255, 0.05)" }}
+                >
+                  <Code size={24} className="stat-icon" />
+                  <h4>4+</h4>
                   <p>Years Learning</p>
-                </div>
-                <div className="stat">
-                  <h4>15+</h4>
+                </motion.div>
+                <motion.div
+                  className="stat"
+                  whileHover={{ y: -5, backgroundColor: "rgba(0, 255, 255, 0.05)" }}
+                >
+                  <Zap size={24} className="stat-icon" />
+                  <h4>{isLoadingGitHub ? '...' : (githubStats?.totalRepos ? `${githubStats.totalRepos}+` : '28+')}</h4>
                   <p>Projects Built</p>
-                </div>
-                <div className="stat">
+                </motion.div>
+                <motion.div
+                  className="stat"
+                  whileHover={{ y: -5, backgroundColor: "rgba(0, 255, 255, 0.05)" }}
+                >
+                  <Star size={24} className="stat-icon" />
                   <h4>100%</h4>
                   <p>Passion for Code</p>
-                </div>
+                </motion.div>
               </div>
             </motion.div>
 
@@ -688,9 +614,9 @@ const App: React.FC = () => {
         <div className="container">
           <motion.div
             className="section-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
             <h2>Skills & Expertise</h2>
@@ -725,9 +651,9 @@ const App: React.FC = () => {
         <div className="container">
           <motion.div
             className="section-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
             <h2>Featured Projects</h2>
@@ -769,6 +695,7 @@ const App: React.FC = () => {
                   <div className="project-technologies">
                     {project.technologies.map((tech) => (
                       <span key={tech} className="tech-tag">
+                        {getTechIcon(tech)}
                         {tech}
                       </span>
                     ))}

@@ -15,6 +15,8 @@ import {
   Zap,
   Sparkles,
   ArrowRight,
+  Award,
+  ExternalLink,
 } from "lucide-react";
 import "./App.css";
 import Iridescence from "./Iridescence";
@@ -32,6 +34,16 @@ interface Project {
   image: string;
   github?: string;
   live?: string;
+}
+
+interface Certification {
+  id: number;
+  title: string;
+  issuer: string;
+  date: string;
+  description: string;
+  pdfPath: string;
+  image: string;
 }
 
 interface Skill {
@@ -146,6 +158,27 @@ const App: React.FC = () => {
       technologies: ["Java", "MySQL"],
       image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
       github: "https://github.com/Wissal-badri/Student-management",
+    },
+  ];
+
+  const certifications: Certification[] = [
+    {
+      id: 1,
+      title: "Python Programming Certification",
+      issuer: "Orange Digital Center",
+      date: "2026",
+      description: "Python training covering core programming concepts such as syntax, variables, loops, and conditional statements. Hands-on learning with practical exercises designed to build a solid foundation in Python programming.",
+      pdfPath: "/Certifications/Wissal_Badri_certificate.pdf", // Placeholder
+      image: "/assets/orangePython.png",
+    },
+    {
+      id: 2,
+      title: "HTML & CSS Certification",
+      issuer: "Udemy / Online Course",
+      date: "2025",
+      description: "Mastery of web fundamentals including semantic HTML5, modern CSS3, Flexbox, Grid, and responsive design principles.",
+      pdfPath: "/Certifications/CERTIF HTML CSS.pdf",
+      image: "/assets/udemy.png",
     },
   ];
 
@@ -329,7 +362,7 @@ const App: React.FC = () => {
           </motion.div>
 
           <div className="nav-menu">
-            {["home", "about", "skills", "projects", "contact"].map((item) => (
+            {["home", "about", "skills", "projects", "certifications", "contact"].map((item) => (
               <button
                 key={item}
                 className={`nav-link ${activeSection === item ? "active" : ""}`}
@@ -357,7 +390,7 @@ const App: React.FC = () => {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {["home", "about", "skills", "projects", "contact"].map(
+              {["home", "about", "skills", "projects", "certifications", "contact"].map(
                 (item) => (
                   <button
                     key={item}
@@ -690,6 +723,60 @@ const App: React.FC = () => {
                       </span>
                     ))}
                   </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications Section */}
+      <section id="certifications" className="certifications">
+        <div className="container">
+          <motion.div
+            className="section-header"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2>Certifications</h2>
+            <p>Recognition of my skills & continuous learning</p>
+          </motion.div>
+
+          <div className="certifications-grid">
+            {certifications.map((cert, index) => (
+              <motion.div
+                key={cert.id}
+                className="certification-card"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10 }}
+              >
+                <div className="cert-image-container">
+                  <img src={cert.image} alt={cert.title} />
+                  <div className="cert-overlay">
+                    <a
+                      href={cert.pdfPath}
+                      className="view-cert-btn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink size={20} />
+                      View Certificate
+                    </a>
+                  </div>
+                </div>
+                <div className="cert-content">
+                  <div className="cert-header">
+                    <Award className="cert-icon" size={24} />
+                    <span className="cert-date">{cert.date}</span>
+                  </div>
+                  <h3>{cert.title}</h3>
+                  <p className="cert-issuer">{cert.issuer}</p>
+                  <p className="cert-description">{cert.description}</p>
                 </div>
               </motion.div>
             ))}

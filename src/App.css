@@ -184,8 +184,8 @@ img {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width: 1000px;
+  width: 95%;
+  max-width: 1300px;
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -1708,6 +1708,139 @@ img {
 }
 
 
+/* Certifications Section */
+.certifications {
+  padding: 120px 0;
+  background-color: #020617;
+  position: relative;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.certification-card {
+  background: rgba(10, 25, 41, 0.6);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.certification-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+.cert-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.6/1;
+  /* Ratio paysage standard pour certificats */
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.cert-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.6s ease, filter 0.6s ease;
+  filter: grayscale(100%);
+}
+
+.certification-card:hover .cert-image-container img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+.cert-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 6, 23, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.certification-card:hover .cert-overlay {
+  opacity: 1;
+}
+
+.view-cert-btn {
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #00ffff, #00cccc);
+  color: #020617;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.certification-card:hover .view-cert-btn {
+  transform: translateY(0);
+}
+
+.cert-content {
+  padding: 25px;
+}
+
+.cert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cert-icon {
+  color: #00ffff;
+}
+
+.cert-date {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-family: 'Space Mono', monospace;
+}
+
+.certification-card h3 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.cert-issuer {
+  color: #00ffff;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.cert-description {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
 /* Contact Section Redesign */
 .contact {
   position: relative;
@@ -2646,4 +2779,94 @@ img {
 
 .btn-secondary:hover .btn-icon-right {
   transform: translateX(5px);
+}
+
+/* --- Mobile Navigation Styles --- */
+
+/* Hide toggle button on desktop */
+.nav-toggle {
+  display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+
+  /* Navbar adjustments for mobile */
+  .navbar {
+    top: 10px;
+    width: 95%;
+    max-width: 100%;
+    padding: 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-container {
+    padding: 10px 20px;
+    height: 60px;
+  }
+
+  /* Hide desktop menu links */
+  .nav-menu {
+    display: none;
+  }
+
+  /* Show toggle button */
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #00ffff;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+
+  .nav-toggle:hover {
+    background: rgba(0, 255, 255, 0.1);
+  }
+
+  /* Improved Mobile Menu */
+  .mobile-menu {
+    overflow: hidden;
+    background: rgba(2, 6, 23, 0.95);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(0, 255, 255, 0.1);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 10px 0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  .mobile-nav-link {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    padding: 16px 20px;
+    text-align: center;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link:active {
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.05), transparent);
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  }
 }

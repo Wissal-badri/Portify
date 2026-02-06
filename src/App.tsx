@@ -4,21 +4,15 @@ import emailjs from "@emailjs/browser";
 import {
   Menu,
   X,
-  ChevronDown,
   Github,
   Linkedin,
   Mail,
-  ExternalLink,
   Download,
   Star,
   Code,
   Palette,
   Smartphone,
   Zap,
-  CheckCircle,
-  Award,
-  Trophy,
-  MessageSquare,
   Sparkles,
   ArrowRight,
 } from "lucide-react";
@@ -26,13 +20,9 @@ import "./App.css";
 import Iridescence from "./Iridescence";
 import TargetCursor from "./TargetCursor";
 import {
-  fetchGitHubRepos,
   calculateGitHubStats,
-  getFeaturedRepos,
-  mapRepoToProject,
   GitHubStats as GitHubStatsType
 } from "./services/githubService";
-import GitHubStatsComponent from "./GitHubStats";
 
 interface Project {
   id: number;

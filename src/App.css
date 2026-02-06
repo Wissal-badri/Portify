@@ -11,6 +11,11 @@ html {
   scroll-behavior: smooth;
 }
 
+section {
+  padding: 180px 0;
+  scroll-margin-top: 100px;
+}
+
 body {
   font-family: 'Space Grotesk', sans-serif;
   line-height: 1.6;
@@ -52,35 +57,36 @@ img {
 /* Section Header Styles */
 .section-header {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 140px;
   position: relative;
 }
 
 .section-header h2 {
   font-family: 'Syne', sans-serif;
-  font-size: 5rem;
+  font-size: 5.5rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.05em;
-  margin-bottom: 10px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%);
+  margin-bottom: 15px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
-  line-height: 0.9;
+  line-height: 0.8;
 }
 
 .section-header p {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 700;
   color: #00ffff;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  margin-top: -40px;
+  letter-spacing: 0.3em;
+  margin-top: -30px;
   position: relative;
   z-index: 1;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
 }
 
 @media (max-width: 768px) {
@@ -137,12 +143,29 @@ img {
 
 .nav-logo {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-logo:active {
+  transform: scale(0.95);
 }
 
 .logo-wrapper {
   display: flex;
   align-items: center;
   gap: 12px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-logo:hover .logo-wrapper {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 255, 255, 0.3);
 }
 
 .logo-icon {
@@ -156,41 +179,42 @@ img {
 
 .logo-text {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   line-height: 1;
 }
 
 .logo-monogram {
-  font-size: 1.5rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
   font-weight: 800;
   background: linear-gradient(to right, #ffffff, #00ffff);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 1px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  height: 100%;
 }
 
 .logo-full-name {
-  font-size: 0.7rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 1.5px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #00ffff;
+  letter-spacing: 1px;
   text-transform: uppercase;
   max-width: 0;
   overflow: hidden;
   white-space: nowrap;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   opacity: 0;
 }
 
 .nav-logo:hover .logo-full-name {
-  max-width: 150px;
+  max-width: 200px;
   opacity: 1;
-  margin-top: 4px;
-  color: #00ffff;
+  margin-left: 5px;
 }
 
 @keyframes logoElectric {
@@ -437,7 +461,7 @@ img {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
   text-transform: uppercase;
   letter-spacing: 0.3em;
   color: #00ffff;
@@ -814,7 +838,7 @@ img {
 .about-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 100px;
+  gap: 120px;
   align-items: center;
 }
 
@@ -841,15 +865,15 @@ img {
 .about-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 50px;
+  gap: 30px;
+  margin-top: 70px;
 }
 
 .stat {
-  padding: 24px;
+  padding: 35px 25px;
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
-  border-radius: 20px;
+  border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   text-align: center;
   transition: all 0.4s ease;
@@ -1114,7 +1138,26 @@ img {
   color: #00ffff;
 }
 
-/* Old styles kept for backward compatibility if needed, but essentially unused now in this section */
+.skills {
+  position: relative;
+  background: rgba(255, 255, 255, 0.015);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.skills::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Old styles kept for backward compatibility... */
 
 .skills-grid {
   display: grid;
@@ -1126,15 +1169,15 @@ img {
 .skills-categories {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 45px;
 }
 
 .skill-category-card {
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  padding: 30px;
-  border-radius: 24px;
+  padding: 40px;
+  border-radius: 28px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -1351,19 +1394,29 @@ img {
   opacity: 1;
 }
 
+.project-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 40px;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
 .project-card:hover {
-  transform: translateY(-15px) scale(1.02);
-  box-shadow:
-    0 30px 70px rgba(0, 0, 0, 0.5),
-    0 0 0 2px rgba(0, 255, 255, 0.4),
-    0 0 60px rgba(0, 255, 255, 0.2);
+  transform: translateY(-8px) scale(1.02);
   border-color: rgba(0, 255, 255, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .project-image {
   position: relative;
   width: 100%;
-  height: 260px;
+  height: 180px;
   overflow: hidden;
   background: #0a1929;
 }
@@ -1444,28 +1497,24 @@ img {
   box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
 }
 
-.project-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 32px;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px 40px;
+  margin-top: 50px;
 }
 
-.project-card:hover {
-  transform: translateY(-12px) scale(1.02);
-  border-color: rgba(0, 255, 255, 0.4);
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 255, 0.1);
+
+
+.project-content {
+  padding: 20px;
 }
 
 .project-content h3 {
   font-family: 'Syne', sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   background: linear-gradient(135deg, #ffffff 0%, #00ffff 100%);
@@ -1476,16 +1525,11 @@ img {
 }
 
 .project-content p {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: #cbd5e1;
-  margin-bottom: 15px;
-  opacity: 0.9;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #94a3b8;
+  margin-bottom: 25px;
 }
 
 .project-technologies {
@@ -1495,15 +1539,16 @@ img {
 }
 
 .tech-tag {
-  padding: 6px 14px;
-  background: rgba(0, 255, 255, 0.1);
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #00ffff;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
+  padding: 8px 16px;
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid rgba(0, 255, 255, 0.5);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(10px);
 }
 
 .tech-tag:hover {
@@ -1872,7 +1917,8 @@ img {
   }
 
   .projects-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
   }
 }
 
@@ -1886,7 +1932,15 @@ img {
   }
 
   .mobile-menu {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(10, 25, 41, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    margin-top: 10px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .hero-container {
@@ -1901,16 +1955,20 @@ img {
   }
 
   .hero-content h1 {
-    font-size: 2.2rem;
-    line-height: 1.2;
+    font-size: 2.8rem;
+    line-height: 0.95;
+    margin-bottom: 20px;
   }
 
   .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
   }
 
   .hero-description {
     font-size: 1rem;
+    max-width: 100%;
+    margin-bottom: 40px;
   }
 
   .hero-buttons {
@@ -2021,7 +2079,8 @@ img {
   }
 
   section {
-    padding: 60px 0;
+    padding: 180px 0;
+    scroll-margin-top: 100px;
   }
 
   .container {
@@ -2035,12 +2094,13 @@ img {
   }
 
   .hero-content h1 {
-    font-size: 1.7rem;
-    line-height: 1.25;
+    font-size: 2.2rem;
+    line-height: 1;
   }
 
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
   }
 
   .hero-description {
@@ -2135,7 +2195,7 @@ img {
   }
 
   .project-content {
-    padding: 20px;
+    padding: 35px;
   }
 
   .project-content h3 {
@@ -2151,19 +2211,41 @@ img {
   }
 
   .section-header h2 {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    line-height: 1.1;
   }
 
   .section-header p {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin-top: -10px;
   }
 
   section {
-    padding: 40px 0;
+    padding: 60px 0;
   }
 
   .nav-container {
-    padding: 0 15px;
+    padding: 0 10px;
+    height: 60px;
+  }
+
+  .navbar {
+    width: 95%;
+    top: 10px;
+  }
+
+  .logo-wrapper {
+    padding: 4px 10px;
+    gap: 8px;
+  }
+
+  .logo-monogram {
+    font-size: 1.2rem;
+  }
+
+  .logo-icon {
+    width: 18px;
+    height: 18px;
   }
 
   .hero-container {
@@ -2173,47 +2255,31 @@ img {
 
 @media (max-width: 360px) {
   .hero-content h1 {
-    font-size: 1.5rem;
-    line-height: 1.25;
+    font-size: 1.8rem;
+    line-height: 1.1;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
   }
 
   .btn {
-    padding: 10px 16px;
-    font-size: 0.85rem;
-  }
-
-  .code-preview {
-    font-size: 11px;
-    padding: 12px;
+    padding: 12px 18px;
+    font-size: 0.8rem;
   }
 
   .section-header h2 {
     font-size: 1.8rem;
   }
 
-  .container {
-    padding: 0 10px;
+  .logo-wrapper {
+    padding: 3px 8px;
+    gap: 6px;
   }
 
-  .nav-container {
-    padding: 0 10px;
-  }
-
-  .hero-container {
-    padding: 0 10px;
-  }
-
-  /* Stack dense grids on ultra-small screens without changing visuals */
-  .tech-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .skills-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .logo-monogram {
+    font-size: 1.1rem;
   }
 }
 

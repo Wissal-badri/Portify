@@ -644,9 +644,9 @@ img {
 .hero-visual-container {
   width: 100%;
   height: 500px;
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(0, 255, 255, 0.1) 100%);
+  background: transparent;
   border-radius: 20px;
-  border: 2px solid rgba(0, 255, 255, 0.2);
+  border: none;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -746,7 +746,7 @@ img {
 }
 
 .code-preview {
-  background: rgba(10, 25, 41, 0.8);
+  background: rgba(0, 255, 255, 0.05);
   border: 2px solid rgba(0, 255, 255, 0.4);
   border-radius: 20px;
   padding: 35px;
@@ -2375,22 +2375,31 @@ img {
     grid-template-columns: 1fr;
     text-align: center;
     gap: 30px;
+    padding: 0 16px;
   }
-
 
   .hero {
     padding-top: 120px;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    width: 100%;
+    min-width: 0;
   }
 
   .hero-content h1 {
-    font-size: 2.8rem;
-    line-height: 0.95;
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    line-height: 1.0;
     margin-bottom: 20px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
   }
 
   .hero-subtitle {
-    font-size: 1.1rem;
-    letter-spacing: 0.2em;
+    font-size: clamp(0.75rem, 3vw, 1.1rem);
+    letter-spacing: 0.15em;
   }
 
   .hero-description {
@@ -2400,9 +2409,10 @@ img {
   }
 
   .hero-buttons {
-    justify-content: flex-start;
+    justify-content: center;
     flex-direction: row !important;
-    gap: 15px !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
   }
 
   .btn {
@@ -2524,23 +2534,30 @@ img {
   }
 
   .hero-content h1 {
-    font-size: 2.2rem;
-    line-height: 1;
+    font-size: clamp(1.5rem, 9vw, 2.2rem);
+    line-height: 1.05;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .hero-subtitle {
-    font-size: 0.9rem;
-    letter-spacing: 0.15em;
+    font-size: clamp(0.7rem, 3vw, 0.9rem);
+    letter-spacing: 0.12em;
   }
 
   .hero-description {
     font-size: 0.95rem;
   }
 
+  .hero-buttons {
+    justify-content: center;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+
   .btn {
     padding: 12px 20px;
-    font-size: 0.9rem;
-    max-width: 200px;
+    font-size: 0.85rem;
   }
 
   .hero-visual-container {

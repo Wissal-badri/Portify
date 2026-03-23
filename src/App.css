@@ -825,8 +825,9 @@ img {
 }
 
 .code-property {
-  color: #60a5fa;
+  color: #00ffff;
   font-weight: 600;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
 }
 
 .code-string {
